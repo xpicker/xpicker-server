@@ -1,5 +1,5 @@
 # API 协议
-$ip = 
+$ip = www.corner.today:10086
 ## Test Group
 ### 连接测试
     请求:
