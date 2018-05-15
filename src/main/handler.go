@@ -13,9 +13,9 @@ func PingPongTest(c *gin.Context) {
 func GetLoginTest(c *gin.Context) {
 	user := CheckUserTest()
 
-	cookie, cookie_type := GetLoginCookieHash(user.Username)
-	RedisSet(cookie_type, cookie, "EX", "1800")
-	c.SetCookie(cookie_type, cookie, 1800,"/", "", true, false)
+	cookie, CookieType := GetLoginCookieHash(user.Username)
+	RedisSet(CookieType, cookie, "EX", "1800")
+	c.SetCookie(CookieType, cookie, 1800,"/", "", true, false)
 
 	c.JSON(200, gin.H{
 		"id": user.Id,
@@ -36,9 +36,9 @@ func PostLoginTest(c *gin.Context) {
 
 	user := CheckUser(username, email, password)
 
-	cookie, cookie_type := GetLoginCookieHash(user.Username)
-	RedisSet(cookie_type, cookie, "EX", "1800")
-	c.SetCookie(cookie_type, cookie, 1800,"/", "", true, false)
+	cookie, CookieType := GetLoginCookieHash(user.Username)
+	RedisSet(CookieType, cookie, "EX", "1800")
+	c.SetCookie(CookieType, cookie, 1800,"/", "", true, false)
 
 	c.JSON(200, gin.H{
 		"id": user.Id,

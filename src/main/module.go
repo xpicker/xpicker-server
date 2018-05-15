@@ -37,26 +37,26 @@ func init() {
 
 func ScanUser(rows *sql.Rows) (user User) {
 	var (
-		id            string
-		username      string
-		_type         string
-		email         string
-		mobile        string
-		password      string
-		register_time time.Time
-		last_time     time.Time
+		id           string
+		username     string
+		userType     string
+		email        string
+		mobile       string
+		password     string
+		registerTime time.Time
+		lastTime     time.Time
 	)
 
-	err := rows.Scan(&id, &password, &username, &register_time, &last_time, &_type, &email, &mobile)
+	err := rows.Scan(&id, &password, &username, &registerTime, &lastTime, &userType, &email, &mobile)
 	CheckErr(err)
 
 	user = User{
 		Id:           id,
 		Password:     password,
 		Username:     username,
-		RegisterTime: register_time,
-		LastTime:     last_time,
-		Type:         _type,
+		RegisterTime: registerTime,
+		LastTime:     lastTime,
+		Type:         userType,
 		Email:        email,
 		Mobile:       mobile,
 	}
@@ -65,9 +65,9 @@ func ScanUser(rows *sql.Rows) (user User) {
 }
 
 func CheckUserTest() (user User) {
-	db_config := "user=" + PostgresqlUser + " password=" + PostgresqlPassword + " dbname=" + PostgresqlName +
+	DbConfig := "user=" + PostgresqlUser + " password=" + PostgresqlPassword + " dbname=" + PostgresqlName +
 		" sslmode=disable" + " port=" + PostgresqlPort
-	db, err := sql.Open("postgres", db_config)
+	db, err := sql.Open("postgres", DbConfig)
 	CheckErr(err)
 
 	rows, err := db.Query("select * from users where id = '1'")
@@ -83,23 +83,23 @@ func CheckUserTest() (user User) {
 }
 
 func CheckUser(username, email, password string) (user User) {
-	db_config := "user=" + PostgresqlUser + " password=" + PostgresqlPassword + " dbname=" + PostgresqlName +
+	DbConfig := "user=" + PostgresqlUser + " password=" + PostgresqlPassword + " dbname=" + PostgresqlName +
 		" sslmode=disable" + " port=" + PostgresqlPort
-	db, err := sql.Open("postgres", db_config)
+	db, err := sql.Open("postgres", DbConfig)
 	CheckErr(err)
 	var (
-		id      string
-		id_type string
+		id     string
+		idType string
 	)
 	if username == "" {
-		id_type = "email"
+		idType = "email"
 		id = email
 	} else {
-		id_type = "username"
+		idType = "username"
 		id = username
 	}
-	sql := "select * from users where " + id_type + "=$1 and password=$2"
-	rows, err := db.Query(sql, id, password)
+	querySql := "select * from users where " + idType + "=$1 and password=$2"
+	rows, err := db.Query(querySql, id, password)
 	CheckErr(err)
 
 	for rows.Next() {
@@ -115,9 +115,9 @@ func CheckUser(username, email, password string) (user User) {
 	return user
 }
 
-func RedisSet(key, value, exkey, exvalue string) {
-	redis := RedisClient.Get()
-	redis.Do("SET", key, value, exkey, exvalue)
+func RedisSet(key, value, exKey, exValue string) {
+	redisClient := RedisClient.Get()
+	redisClient.Do("SET", key, value, exKey, exValue)
 }
 
 func CheckErr(err error) {
