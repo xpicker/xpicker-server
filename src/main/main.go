@@ -8,7 +8,7 @@ import (
 
 func main() {
 	router := gin.Default()
-	testGroup := router.Group("/api/testGroup/")
+	testGroup := router.Group("/api/test/")
 	{
 		testGroup.GET("/ping", test.PingPongTest)
 		testGroup.GET("/login", test.GetLoginTest)

@@ -2,8 +2,6 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"app"
-	"lib"
 )
 
 func GetLoging(c *gin.Context) {
