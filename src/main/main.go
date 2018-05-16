@@ -3,15 +3,16 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/fvbock/endless"
+	"test"
 )
 
 func main() {
 	router := gin.Default()
-	test := router.Group("/api/test/")
+	testGroup := router.Group("/api/testGroup/")
 	{
-		test.GET("/ping", PingPongTest)
-		test.GET("/login", GetLoginTest)
-		test.POST("/login", PostLoginTest)
+		testGroup.GET("/ping", test.PingPongTest)
+		testGroup.GET("/login", test.GetLoginTest)
+		testGroup.POST("/login", test.PostLoginTest)
 	}
 	user := router.Group("/api/user/")
 	{
