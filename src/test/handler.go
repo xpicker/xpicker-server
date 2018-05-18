@@ -49,9 +49,9 @@ func PostLoginTest(c *gin.Context) {
 			"message": "User Not Found",
 		})
 	} else {
-		cookie, CookieType := lib.GetLoginCookieHash(user.Username)
-		app.RedisSet(CookieType, cookie, "EX", "1800")
-		c.SetCookie(CookieType, cookie, 1800, "/", "", true, false)
+		cookie, cookieType := lib.GetLoginCookieHash(user.Username)
+		app.RedisSet(cookieType, cookie, "EX", "1800")
+		c.SetCookie(cookieType, cookie, 1800, "/", "127.0.0.1", false, true)
 
 		c.JSON(200, gin.H{
 			"id":            user.Id,
