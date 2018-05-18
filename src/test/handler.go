@@ -43,6 +43,12 @@ func PostLoginTest(c *gin.Context) {
 	password := c.PostForm("password")
 
 	user := app.CheckUser(username, email, password)
+	if user.Id != "1" {
+		c.JSON(200, gin.H{
+			"status": "Login failed",
+			"message": "User Not Found",
+		})
+	}
 
 	cookie, CookieType := lib.GetLoginCookieHash(user.Username)
 	app.RedisSet(CookieType, cookie, "EX", "1800")
