@@ -20,17 +20,17 @@ func GetLoginTest(c *gin.Context) {
 
 	cookie, CookieType := lib.GetLoginCookieHash(user.Username)
 	app.RedisSet(CookieType, cookie, "EX", "1800")
-	c.SetCookie(CookieType, cookie, 1800,"/", "", true, false)
+	c.SetCookie(CookieType, cookie, 1800, "/", "", true, false)
 
 	c.JSON(200, gin.H{
-		"id": user.Id,
-		"password": user.Password,
-		"username": user.Username,
+		"id":            user.Id,
+		"password":      user.Password,
+		"username":      user.Username,
 		"register_time": user.RegisterTime,
-		"last_time": user.LastTime,
-		"email": user.Email,
-		"mobile": user.Mobile,
-		"type": user.Type,
+		"last_time":     user.LastTime,
+		"email":         user.Email,
+		"mobile":        user.Mobile,
+		"type":          user.Type,
 	})
 }
 
@@ -45,22 +45,23 @@ func PostLoginTest(c *gin.Context) {
 	user := app.CheckUser(username, email, password)
 	if user.Id != "1" {
 		c.JSON(200, gin.H{
-			"status": "Login failed",
+			"status":  "Login Failed",
 			"message": "User Not Found",
+		})
+	} else {
+		cookie, CookieType := lib.GetLoginCookieHash(user.Username)
+		app.RedisSet(CookieType, cookie, "EX", "1800")
+		c.SetCookie(CookieType, cookie, 1800, "/", "", true, false)
+
+		c.JSON(200, gin.H{
+			"id":            user.Id,
+			"username":      user.Username,
+			"register_time": user.RegisterTime,
+			"last_time":     user.LastTime,
+			"email":         user.Email,
+			"mobile":        user.Mobile,
+			"type":          user.Type,
 		})
 	}
 
-	cookie, CookieType := lib.GetLoginCookieHash(user.Username)
-	app.RedisSet(CookieType, cookie, "EX", "1800")
-	c.SetCookie(CookieType, cookie, 1800,"/", "", true, false)
-
-	c.JSON(200, gin.H{
-		"id": user.Id,
-		"username": user.Username,
-		"register_time": user.RegisterTime,
-		"last_time": user.LastTime,
-		"email": user.Email,
-		"mobile": user.Mobile,
-		"type": user.Type,
-	})
 }

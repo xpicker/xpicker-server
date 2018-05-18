@@ -1,14 +1,10 @@
 package lib
 
-import (
-	"log"
-)
-
-
+import "log"
 
 func CheckErr(err error) {
 	if err != nil {
-		log.Fatal(err)
+		log.Print(err)
 	}
 }
 

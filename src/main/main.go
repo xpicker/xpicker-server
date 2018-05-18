@@ -6,6 +6,7 @@ import (
 	"test"
 )
 
+
 func main() {
 	router := gin.Default()
 	testGroup := router.Group("/api/test/")
@@ -25,4 +26,3 @@ func main() {
 
 	endless.ListenAndServe(":10086", router)
 }
-
