@@ -47,7 +47,7 @@ func PostLoginTest(c *gin.Context) {
 	} else {
 		cookie, cookieType := lib.GetLoginCookieHash(user.Username)
 		app.RedisSet(cookieType, cookie, "EX", "1800")
-		c.SetCookie(cookieType, cookie, 1800, "/", "127.0.0.1", false, true)
+		c.SetCookie(cookieType, cookie, 1800, "/", "", false, true)
 
 		c.JSON(200, gin.H{
 			"id":            user.Id,
